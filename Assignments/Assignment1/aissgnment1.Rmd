@@ -1,0 +1,108 @@
+---
+title: "STAT318Assignment1"
+author: "SJ Lee"
+date: "15/08/2021"
+output: html_document
+---
+
+Question 1:
+
+
+Question 2:
+a)
+```{}
+## Normal plots
+
+x = seq(-4,5,length=100)
+plot(x,
+	0.69*dnorm(x),
+	pch=21,
+	col="blue",
+	cex=0.6,
+	lwd = 4,
+	type="l",
+	xlab = "x",
+	ylab = "pi_k*f_k",
+	main = "Conditional densities multiplied by prior probabilities")
+points(x,
+	(1 - 0.69)*dnorm(x,1,0.5),
+	pch=21,
+	col="red",
+	cex=0.6,
+	lwd = 4,
+	type="l")
+legend("topright",
+	legend = c("Class 0", "Class 1"),
+	col = c("blue","red"),
+	lwd = 4,
+	text.col = "black",
+	horiz = FALSE)
+```
+b)
+
+Question 3
+a)
+```{}
+## STAT318/462 kNN regression function
+
+kNN <- function(k,x.train,y.train,x.pred) {
+# 
+## This is kNN regression function for problems with
+## 1 predictor
+#
+## INPUTS
+#
+# k       = number of observations in nieghbourhood 
+# x.train = vector of training predictor values
+# y.train = vector of training response values
+# x.pred  = vector of predictor inputs with unknown
+#           response values 
+#
+## OUTPUT
+#
+# y.pred  = predicted response values for x.pred
+
+## Initialize:
+n.pred <- length(x.pred);		y.pred <- numeric(n.pred)
+
+## Main Loop
+for (i in 1:n.pred){
+  d <- abs(x.train - x.pred[i])
+  dstar = d[order(d)[k]]
+  y.pred[i] <- mean(y.train[d <= dstar])		
+}
+## Return the vector of predictions
+invisible(y.pred)
+}
+```
+
+
+
+
+
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

@@ -1,0 +1,259 @@
+---
+title: "STAT318Assignment3"
+output:
+  word_document: default
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+## **Question 1**
+
+```{r setup}
+# a)
+library(caret)
+dim(iris)
+summary(iris)
+```
+There are 150 rows and 5 columns/variables. The variables are Sepal.length, Sepal.Width, Petal.Length, Petal.Width and Species.
+
+```{r}
+# b)
+# Group by species
+par(mfrow=c(2,2))
+boxplot(Sepal.Length~Species, data = iris)
+boxplot(Sepal.Width~Species, data = iris)
+boxplot(Petal.Length~Species, data = iris)
+boxplot(Petal.Width~Species, data = iris)
+```
+
+```{r}
+# c)
+summary(iris)
+```
+The data is not unbalanced as there are 3 classes in species (setosa, versicolor, virginica) with all equal ratios 50:50:50.
+
+```{r}
+#d)
+
+x <- iris[, 1:4]
+y <- iris$Species
+caret::featurePlot(x, 
+                   y, 
+                   plot="density", 
+                   scales = list(x = list(relation="free"), 
+                                 y = list(relation="free")), 
+                   adjust = 1.5, 
+                   pch = "o", 
+                   layout = c(4, 1), 
+                   auto.key = list(columns = 3))
+
+```
+
+From the density plot for petal length and petal width, we can see that the density of setosa flower does not overlap with the densities of the versicolor and virginica iris flowers.Because there is no overlap these might be better predictors for flower species. In the Sepal.Length and Sepal.Width plot all three densities (setosa, versicolor and virginica) have overlap which may mean they are not as significant for predictions. There is a a lot more overlap between all three species for the sepal length and sepal width features, so these variables are not as significant in predictions.
+
+```{r}
+#e)
+nfolds <- 10
+traincontrol <- trainControl(method = "cv",
+                            number = nfolds)
+LDA <- train(Species ~ ., 
+             data = iris, 
+             method = "lda", 
+             trControl = traincontrol)
+
+KNN <- train(Species ~ ., 
+             data = iris, 
+             method = "knn", 
+             tuneGrid   = expand.grid(k = c(1,2,3,4,5,6,7,8,9,10)),
+             trControl = traincontrol, 
+             metric="Accuracy")
+
+results <- resamples(list(lda=LDA, knn=KNN))
+summary(results)
+dotplot(results)
+
+```
+
+From the plot we can see that LDA is more accurate than knn. We can also see that knn has a larger 95% confidence interval compared to lda. Because of these two facts the lda should be used for better accuracy.  
+
+## Question 2
+```{r}
+#a
+library(ISLR2)
+summary(Credit)
+dim(Credit)
+
+```
+There are 400 rows and 11 columns/variables. The variables are Income, Limit, Rating, Cards, Age, Education, Own, Student, Married, Region, Balance.
+
+```{r}
+#b
+creditBalanceMean <- mean(Credit$Balance)
+creditBalanceMean
+```
+Estimate for the population mean of the credit card balance is $520.015.
+
+```{r}
+#c
+n_observation <- nrow(Credit)
+SE <- sd(Credit$Balance) / sqrt(n_observation)
+SE
+```
+Estimate of the standard error is $22.98794.
+
+```{r}
+#d
+library(boot)
+meanfunc = function(x, index) {
+  return(mean(x$Balance[index]))
+}
+
+bootSE <- boot(Credit, meanfunc, R=1000)
+bootSE
+bootSEval <- 22.23329
+```
+The standard error using bootstrap is $22.23329. Our standard error in c is a bit higher with value of $22.98794.
+
+
+```{r}
+lower <- creditBalanceMean - 2*bootSEval
+upper <- creditBalanceMean + 2*bootSEval
+CI <- c(lower, upper) 
+CI
+t.test(Credit$Balance, conf.level = 0.95)
+```
+From the results we can see that they are very similar/values are very close to each other. 
+
+# Question 3
+```{r}
+library(tree)
+library(gbm)
+library(randomForest)
+
+setwd("H:/Documents/STAT318/Assignments/Assignment3")
+training = read.csv("carseatsTrain.csv")
+testing = read.csv("carseatsTest.csv")
+
+```
+
+```{r}
+library(tree)
+library(gbm)
+library(randomForest)
+library(MASS)
+
+setwd("H:/Documents/STAT318/Assignments/Assignment3")
+training = read.csv("carseatsTrain.csv")
+testing = read.csv("carseatsTest.csv")
+
+#a)
+plot.new()
+train_tree <- tree(Sales~., data=training)
+plot(train_tree)
+text(train_tree,
+     cex=0.6)
+
+trainingMSE <- (mean((predict(train_tree,
+                newdata=training) - training$Sales) ^ 2))
+
+testingMSE <- (mean((predict(train_tree,
+              newdata=testing) - testing$Sales) ^ 2))
+
+trainingMSE
+testingMSE
+```
+From the tree we can see that there are 22 terminal nodes. We can also see that Age and Advertising are the most useful predictors as age is at the top and advertising is in the second level.  
+
+The training MSE is 4.224765 and the testing MSE is 9.758961. 
+
+```{r}
+#b)
+prune <- cv.tree(train_tree)
+prune
+
+tree_prune <- prune.tree(train_tree, best=8)
+plot(tree_prune)
+text(tree_prune,
+     cex=0.5)
+
+pruneMSE <- (mean((predict(tree_prune, 
+                  newdata=testing) - testing$Sales)^2))
+pruneMSE
+
+```
+When we compare the pruned tree MSE and the non pruned tree MSE we can see that the pruned tree MSE (7.004235) is less than the non pruned tree (9.758961). So therefore the pruned tree does perform better. 
+
+```{r}
+#c)
+randForest <- randomForest(Sales~.,data=training,importance=TRUE)
+
+RF_train_MSE <- (mean((predict(randForest, newdata=training) - training$Sales)^2))
+RF_test_MSE <- (mean((predict(randForest, newdata=testing) - testing$Sales)^2))
+
+RF_train_MSE
+RF_test_MSE
+
+bagged <- randomForest(Sales~.,data=training,mtry=9,importance=TRUE)
+
+bagged_train_MSE <- (mean((predict(bagged, newdata=training) - training$Sales)^2))
+bagged_test_MSE <- (mean((predict(bagged, newdata=testing) - testing$Sales)^2))
+
+bagged_train_MSE
+bagged_test_MSE
+
+```
+The random forest training MSE had a value of 1.157876 and the random forest testing MSE had a value of 4.981077. The bagged training MSE is 0.9528967 and the bagged testing MSE is 4.968944. Because bagging has smaller MSE values in both training and testing decorrelating was not a good strategy for this problem.   
+
+```{r}
+train <- sample(1:nrow(training), nrow(training)/2)
+
+training$ShelveLoc <- as.factor(training$ShelveLoc)
+training$Urban  <- as.factor(training$Urban)
+training$US  <- as.factor(training$US)
+
+boost_tree <- gbm(Sales~.,
+                  data=training[train,],
+                  distribution="gaussian",
+                  n.trees=5000,
+                  interaction.depth=4,
+                  shrinkage=0.05)
+
+
+summary(boost_tree)
+
+
+MSE_calc <- function(x) {
+  MSE_train_calc <- (mean((predict(x, 
+                                 newdata=training) - training$Sales)^2))
+  MSE_test_calc <- (mean((predict(x, 
+                                newdata=testing) - testing$Sales)^2))
+  
+  return(c(MSE_train_calc, MSE_test_calc))
+}
+
+boost_tree <- gbm(Sales~.,
+                  data=training[train,],
+                  distribution="gaussian",
+                  n.trees=1000,
+                  interaction.depth=1,
+                  shrinkage=0.005)
+
+
+summary(boost_tree)
+
+boost_train_MSE <- MSE_calc(boost_tree)[1]
+boost_test_MSE <- MSE_calc(boost_tree)[2]
+
+
+boost_train_MSE
+boost_test_MSE
+
+
+```
+After trying different depths, shrinkage and number of trees I have found that 1000 trees with depth 1 and shrinkage gave me a training MSE of 4.311855 and testing MSE of 6.474855 which was my best one. When I tested different values I found that increasing the depth, number of trees and shrinkage would increase the MSE values. 
+
+e)
+I believe bagging model performed the best as it had a testing MSE of 4.968944 which was the smallest. The Sales were the most important for the predictors. 
+
+
+

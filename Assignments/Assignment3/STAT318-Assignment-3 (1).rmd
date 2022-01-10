@@ -1,0 +1,291 @@
+---
+title: "STAT318 Assignment 3"
+author: ""
+date: ""
+output:
+  word_document: default
+  pdf_document: default
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+
+library(caret)
+
+```
+
+# Question 1
+
+## a)
+
+```{r}
+
+summary(iris)
+nrow(iris)
+head(iris)
+
+```
+
+There are 150 rows in the dataset, and there is 5 variables - Sepal Length, Sepal Width, Petal Length, Petal Width, and Species.
+
+## b)
+
+```{r}
+
+boxplot(Sepal.Length ~ Species, data=iris, col=c("green","yellow","orange"))
+boxplot(Sepal.Width ~ Species, data=iris, col=c("green","yellow","orange"))
+boxplot(Petal.Length ~ Species, data=iris, col=c("green","yellow","orange"))
+boxplot(Petal.Width ~ Species, data=iris, col=c("green","yellow","orange"))
+
+```
+
+## c)
+
+```{r}
+
+summary(iris)
+
+```
+The summary shows that we have 50 rows of each species, which means our data is balanced.
+
+## d)
+
+```{r}
+
+caret::featurePlot(iris[, 1:4], iris$Species, plot="density", auto.key = list(columns = 3))
+
+```
+
+The density plot for the petal length and petal width of setosa flowers does not overlap the densities of the versicolor and virginica iris flowers,
+so these might be better predictors for flower species. There is a a lot more overlap between all three species for the sepal length and sepal width features, so these variables are not as significant in predictions.
+
+## e)
+
+```{r}
+
+train_control = caret::trainControl(method="cv", number=10)
+
+fit.lda = caret::train(Species~., data=iris, trControl=train_control, method="lda")
+fit.knn = caret::train(Species~., data=iris, trControl=train_control, method="knn", metric="Accuracy", tuneGrid=expand.grid(k=1:10))
+
+results <- resamples(list(lda=fit.lda, knn=fit.knn))
+summary(results)
+dotplot(results)
+
+```
+
+The LDA appears to be slightly more accurate than the KNN model, and has a smaller 95% confidence interval as well. In this case, we would choose the LDA model for better accuracy and since it is a simpler model.
+
+# Question 2)
+
+```{r, echo=FALSE, results=FALSE}
+
+#install.packages('ISLR2')
+library(boot)
+library(ISLR2)
+
+```
+
+## a)
+
+```{r}
+
+summary(Credit)
+nrow(Credit)
+head(Credit)
+
+```
+
+There are 400 rows in the dataset, and there is 11 variables - Income, Limit, Rating, Cards, Age, Education, Own, Student, Married, Region, and Balance.
+
+## b)
+
+```{r}
+
+mean(Credit$Balance)
+
+```
+
+The sample estimate for the population mean is $520.015.
+
+## c)
+
+```{r}
+
+sd(Credit$Balance) / sqrt(nrow(Credit))
+
+```
+
+The standard error estimate for our sample mean is $22.99 (2dp).
+
+## d)
+
+```{r}
+
+se.fn = function(data,index) {
+  return(mean(data$Balance[index]))
+}
+
+boot.out = boot(Credit, se.fn, R=1000)
+boot.out
+```
+
+Our bootstrap estimate for the standard error of the sample mean is $22.29 (2dp), while our single sample estimate for the standard error of the
+sample mean is $22.99 (2dp).
+
+## e)
+
+```{r}
+
+(conf_int_sample_mean = c(mean(Credit$Balance)-2*22.29354, mean(Credit$Balance)+2*22.29354))
+(conf_int_t_test = c(mean(Credit$Balance)+qt(0.025, df=399)*22.29354, mean(Credit$Balance)+qt(0.975, df=399)*22.29354))
+```
+
+Using a t-distribution, the results we get are nearly identical since 1.96 is very close to the approximate value of 2 we used.
+
+# Question 3
+
+```{r}
+library(tree)
+library(randomForest)
+library(gbm)
+
+setwd("H:/Documents/STAT318/Assignments/Assignment3")
+getwd()
+Train = read.csv("carseatsTrain.csv")
+Test = read.csv("carseatsTest.csv")
+
+head(Train)
+
+```
+
+## a)
+
+```{r}
+
+carseat_tree = tree(Sales~., data=Train)
+summary(carseat_tree)
+
+plot(carseat_tree)
+text(carseat_tree,
+     cex=0.7)
+```
+
+The summary output shows we have 22 terminal nodes. We see that the variables Age and Income are the most useful since they are at the top.
+
+```{r}
+
+train_mse = (mean((predict(carseat_tree, newdata=Train) - Train$Sales)^2))
+test_mse = (mean((predict(carseat_tree, newdata=Test) - Test$Sales)^2))
+
+train_mse
+test_mse
+```
+
+## b)
+
+```{r}
+
+complexity = cv.tree(carseat_tree)
+complexity
+```
+
+```{r}
+
+carseats_prune = prune.tree(carseat_tree, best=8)
+plot(carseats_prune)
+text(carseats_prune,
+     cex=0.7)
+```
+
+```{r}
+
+test_mse_prune = (mean((predict(carseats_prune, newdata=Test) - Test$Sales)^2))
+test_mse_prune
+
+```
+
+Here we go from a test MSE of 9.76 (2dp) to a new test MSE for our pruned tree of 7.00 (2dp). Thus the pruned tree does perform better.
+
+## c)
+
+```{r}
+
+rf_carseats = randomForest(Sales~.,data=Train,ntree=1000)
+train_mse_rf = (mean((predict(rf_carseats, newdata=Train) - Train$Sales)^2))
+test_mse_rf = (mean((predict(rf_carseats, newdata=Test) - Test$Sales)^2))
+
+train_mse_rf
+test_mse_rf
+
+```
+
+```{r}
+
+bagged_carseats = randomForest(Sales~.,data=Train,mtry=9,ntree=1000)
+train_mse_bag = (mean((predict(bagged_carseats, newdata=Train) - Train$Sales)^2))
+test_mse_bag = (mean((predict(bagged_carseats, newdata=Test) - Test$Sales)^2))
+
+train_mse_bag
+test_mse_bag
+```
+
+The bagged trees had a slightly lower test MSE than than the random forest.
+
+## d)
+
+```{r}
+?gbm::gbm
+Train$ShelveLoc = as.factor(Train$ShelveLoc)
+Train$Urban = as.factor(Train$Urban)
+Train$US = as.factor(Train$US)
+boost_carseats = gbm(Sales~., distribution="gaussian", n.trees=1000, interaction.depth=1, shrinkage=0.01, data=Train)
+summary(boost_carseats)
+```
+
+```{r}
+
+train_mse_boost = (mean((predict(boost_carseats, newdata=Train) - Train$Sales)^2))
+test_mse_boost = (mean((predict(boost_carseats, newdata=Test) - Test$Sales)^2))
+test_mse_boost
+```
+
+Changing boosted tree parameters:
+
+```{r}
+
+boost_carseats1 = gbm(Sales~., distribution="gaussian", n.trees=1000, interaction.depth=4, shrinkage=0.001, data=Train)
+summary(boost_carseats1)
+```
+
+```{r}
+
+train_mse_boost1 = (mean((predict(boost_carseats1, newdata=Train) - Train$Sales)^2))
+test_mse_boost1 = (mean((predict(boost_carseats1, newdata=Test) - Test$Sales)^2))
+test_mse_boost1
+```
+
+More changes:
+
+```{r}
+
+boost_carseats2 = gbm(Sales~., distribution="gaussian", n.trees=2000, interaction.depth=8, shrinkage=0.1, data=Train)
+summary(boost_carseats2)
+
+```
+
+
+```{r}
+
+train_mse_boost2 = (mean((predict(boost_carseats2, newdata=Train) - Train$Sales)^2))
+test_mse_boost2 = (mean((predict(boost_carseats2, newdata=Test) - Test$Sales)^2))
+test_mse_boost2
+```
+
+The best boosted tree was the initial one, $\texttt{boost_carseats}$ with a training MSE of 3.89 (2dp) and testing MSE of 6.49 (2dp). Increasing the interaction depth and shrinkage for the boosted trees increased the test MSE.
+
+## e)
+
+
+The overall best model was the bagged regression tree, which gave us a test MSE of 4.95 (2dp).

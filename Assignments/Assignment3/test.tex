@@ -1,0 +1,1196 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={STAT318Assignment3},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{STAT318Assignment3}
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+\maketitle
+
+\hypertarget{question-1}{%
+\subsection{\texorpdfstring{\textbf{Question
+1}}{Question 1}}\label{question-1}}
+
+\hypertarget{there-are-150-rows-and-5-columnsvariables.-the-variables-are-sepal.length-sepal.width-petal.length-petal.width-and-species.}{%
+\subsubsection{There are 150 rows and 5 columns/variables. The variables
+are Sepal.length, Sepal.Width, Petal.Length, Petal.Width and
+Species.}\label{there-are-150-rows-and-5-columnsvariables.-the-variables-are-sepal.length-sepal.width-petal.length-petal.width-and-species.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# b)}
+\CommentTok{\# Group by species}
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow=}\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\FunctionTok{boxplot}\NormalTok{(Sepal.Length}\SpecialCharTok{\textasciitilde{}}\NormalTok{Species, }\AttributeTok{data =}\NormalTok{ iris)}
+\FunctionTok{boxplot}\NormalTok{(Sepal.Width}\SpecialCharTok{\textasciitilde{}}\NormalTok{Species, }\AttributeTok{data =}\NormalTok{ iris)}
+\FunctionTok{boxplot}\NormalTok{(Petal.Length}\SpecialCharTok{\textasciitilde{}}\NormalTok{Species, }\AttributeTok{data =}\NormalTok{ iris)}
+\FunctionTok{boxplot}\NormalTok{(Petal.Width}\SpecialCharTok{\textasciitilde{}}\NormalTok{Species, }\AttributeTok{data =}\NormalTok{ iris)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{test_files/figure-latex/unnamed-chunk-1-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# c)}
+\FunctionTok{summary}\NormalTok{(iris)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   Sepal.Length    Sepal.Width     Petal.Length    Petal.Width   
+##  Min.   :4.300   Min.   :2.000   Min.   :1.000   Min.   :0.100  
+##  1st Qu.:5.100   1st Qu.:2.800   1st Qu.:1.600   1st Qu.:0.300  
+##  Median :5.800   Median :3.000   Median :4.350   Median :1.300  
+##  Mean   :5.843   Mean   :3.057   Mean   :3.758   Mean   :1.199  
+##  3rd Qu.:6.400   3rd Qu.:3.300   3rd Qu.:5.100   3rd Qu.:1.800  
+##  Max.   :7.900   Max.   :4.400   Max.   :6.900   Max.   :2.500  
+##        Species  
+##  setosa    :50  
+##  versicolor:50  
+##  virginica :50  
+##                 
+##                 
+## 
+\end{verbatim}
+
+\#\#The data is not unbalanced as there are 3 classes in species
+(setosa, versicolor, virginica) with all equal ratios 50:50:50.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#d)}
+
+\NormalTok{x }\OtherTok{\textless{}{-}}\NormalTok{ iris[, }\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{]}
+\NormalTok{y }\OtherTok{\textless{}{-}}\NormalTok{ iris}\SpecialCharTok{$}\NormalTok{Species}
+\NormalTok{caret}\SpecialCharTok{::}\FunctionTok{featurePlot}\NormalTok{(x, }
+\NormalTok{                   y, }
+                   \AttributeTok{plot=}\StringTok{"density"}\NormalTok{, }
+                   \AttributeTok{scales =} \FunctionTok{list}\NormalTok{(}\AttributeTok{x =} \FunctionTok{list}\NormalTok{(}\AttributeTok{relation=}\StringTok{"free"}\NormalTok{), }
+                                 \AttributeTok{y =} \FunctionTok{list}\NormalTok{(}\AttributeTok{relation=}\StringTok{"free"}\NormalTok{)), }
+                   \AttributeTok{adjust =} \FloatTok{1.5}\NormalTok{, }
+                   \AttributeTok{pch =} \StringTok{"o"}\NormalTok{, }
+                   \AttributeTok{layout =} \FunctionTok{c}\NormalTok{(}\DecValTok{4}\NormalTok{, }\DecValTok{1}\NormalTok{), }
+                   \AttributeTok{auto.key =} \FunctionTok{list}\NormalTok{(}\AttributeTok{columns =} \DecValTok{3}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{test_files/figure-latex/unnamed-chunk-3-1.pdf}
+
+\#\#From the density plot for petal length and petal width, we can see
+that the density of setosa flower does not overlap with the densities of
+the versicolor and virginica iris flowers.Because there is no overlap
+these might be better predictors for flower species. In the Sepal.Length
+and Sepal.Width plot all three densities (setosa, versicolor and
+virginica) have overlap which may mean they are not as significant for
+predictions. There is a a lot more overlap between all three species for
+the sepal length and sepal width features, so these variables are not as
+significant in predictions.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#e)}
+\NormalTok{nfolds }\OtherTok{\textless{}{-}} \DecValTok{10}
+\NormalTok{traincontrol }\OtherTok{\textless{}{-}} \FunctionTok{trainControl}\NormalTok{(}\AttributeTok{method =} \StringTok{"cv"}\NormalTok{,}
+                            \AttributeTok{number =}\NormalTok{ nfolds)}
+\NormalTok{LDA }\OtherTok{\textless{}{-}} \FunctionTok{train}\NormalTok{(Species }\SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }
+             \AttributeTok{data =}\NormalTok{ iris, }
+             \AttributeTok{method =} \StringTok{"lda"}\NormalTok{, }
+             \AttributeTok{trControl =}\NormalTok{ traincontrol)}
+
+\NormalTok{KNN }\OtherTok{\textless{}{-}} \FunctionTok{train}\NormalTok{(Species }\SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }
+             \AttributeTok{data =}\NormalTok{ iris, }
+             \AttributeTok{method =} \StringTok{"knn"}\NormalTok{, }
+             \AttributeTok{tuneGrid   =} \FunctionTok{expand.grid}\NormalTok{(}\AttributeTok{k =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{5}\NormalTok{,}\DecValTok{6}\NormalTok{,}\DecValTok{7}\NormalTok{,}\DecValTok{8}\NormalTok{,}\DecValTok{9}\NormalTok{,}\DecValTok{10}\NormalTok{)),}
+             \AttributeTok{trControl =}\NormalTok{ traincontrol, }
+             \AttributeTok{metric=}\StringTok{"Accuracy"}\NormalTok{)}
+
+\NormalTok{results }\OtherTok{\textless{}{-}} \FunctionTok{resamples}\NormalTok{(}\FunctionTok{list}\NormalTok{(}\AttributeTok{lda=}\NormalTok{LDA, }\AttributeTok{knn=}\NormalTok{KNN))}
+\FunctionTok{summary}\NormalTok{(results)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## summary.resamples(object = results)
+## 
+## Models: lda, knn 
+## Number of resamples: 10 
+## 
+## Accuracy 
+##          Min. 1st Qu. Median      Mean 3rd Qu. Max. NA's
+## lda 0.8666667    1.00      1 0.9800000       1    1    0
+## knn 0.8666667    0.95      1 0.9733333       1    1    0
+## 
+## Kappa 
+##     Min. 1st Qu. Median Mean 3rd Qu. Max. NA's
+## lda  0.8   1.000      1 0.97       1    1    0
+## knn  0.8   0.925      1 0.96       1    1    0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{dotplot}\NormalTok{(results)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{test_files/figure-latex/unnamed-chunk-4-1.pdf}
+
+\#\#From the plot we can see that LDA is more accurate than knn. We can
+also see that knn has a larger 95\% confidence interval compared to lda.
+Because of these two facts the lda should be used for better accuracy.
+
+\hypertarget{question-2}{%
+\subsection{Question 2}\label{question-2}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#a}
+\FunctionTok{library}\NormalTok{(ISLR2)}
+\FunctionTok{summary}\NormalTok{(Credit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      Income           Limit           Rating          Cards      
+##  Min.   : 10.35   Min.   :  855   Min.   : 93.0   Min.   :1.000  
+##  1st Qu.: 21.01   1st Qu.: 3088   1st Qu.:247.2   1st Qu.:2.000  
+##  Median : 33.12   Median : 4622   Median :344.0   Median :3.000  
+##  Mean   : 45.22   Mean   : 4736   Mean   :354.9   Mean   :2.958  
+##  3rd Qu.: 57.47   3rd Qu.: 5873   3rd Qu.:437.2   3rd Qu.:4.000  
+##  Max.   :186.63   Max.   :13913   Max.   :982.0   Max.   :9.000  
+##       Age          Education      Own      Student   Married     Region   
+##  Min.   :23.00   Min.   : 5.00   No :193   No :360   No :155   East : 99  
+##  1st Qu.:41.75   1st Qu.:11.00   Yes:207   Yes: 40   Yes:245   South:199  
+##  Median :56.00   Median :14.00                                 West :102  
+##  Mean   :55.67   Mean   :13.45                                            
+##  3rd Qu.:70.00   3rd Qu.:16.00                                            
+##  Max.   :98.00   Max.   :20.00                                            
+##     Balance       
+##  Min.   :   0.00  
+##  1st Qu.:  68.75  
+##  Median : 459.50  
+##  Mean   : 520.01  
+##  3rd Qu.: 863.00  
+##  Max.   :1999.00
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{dim}\NormalTok{(Credit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 400  11
+\end{verbatim}
+
+\hypertarget{there-are-400-rows-and-11-columnsvariables.-the-variables-are-income-limit-rating-cards-age-education-own-student-married-region-balance.}{%
+\subsection{There are 400 rows and 11 columns/variables. The variables
+are Income, Limit, Rating, Cards, Age, Education, Own, Student, Married,
+Region,
+Balance.}\label{there-are-400-rows-and-11-columnsvariables.-the-variables-are-income-limit-rating-cards-age-education-own-student-married-region-balance.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#b}
+\NormalTok{creditBalanceMean }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(Credit}\SpecialCharTok{$}\NormalTok{Balance)}
+\NormalTok{creditBalanceMean}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 520.015
+\end{verbatim}
+
+\hypertarget{estimate-for-the-population-mean-of-the-credit-card-balance-is-520.015.}{%
+\subsection{estimate for the population mean of the credit card balance
+is
+\$520.015.}\label{estimate-for-the-population-mean-of-the-credit-card-balance-is-520.015.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#c}
+\NormalTok{n\_observation }\OtherTok{\textless{}{-}} \FunctionTok{nrow}\NormalTok{(Credit)}
+\NormalTok{SE }\OtherTok{\textless{}{-}} \FunctionTok{sd}\NormalTok{(Credit}\SpecialCharTok{$}\NormalTok{Balance) }\SpecialCharTok{/} \FunctionTok{sqrt}\NormalTok{(n\_observation)}
+\NormalTok{SE}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 22.98794
+\end{verbatim}
+
+\hypertarget{estimate-of-the-standard-error-is-22.98794.}{%
+\subsection{Estimate of the standard error is
+\$22.98794.}\label{estimate-of-the-standard-error-is-22.98794.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#d}
+\FunctionTok{library}\NormalTok{(boot)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'boot'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:lattice':
+## 
+##     melanoma
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{meanfunc }\OtherTok{=} \ControlFlowTok{function}\NormalTok{(x, index) \{}
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{mean}\NormalTok{(x}\SpecialCharTok{$}\NormalTok{Balance[index]))}
+\NormalTok{\}}
+
+\NormalTok{bootSE }\OtherTok{\textless{}{-}} \FunctionTok{boot}\NormalTok{(Credit, meanfunc, }\AttributeTok{R=}\DecValTok{1000}\NormalTok{)}
+\NormalTok{bootSE}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## ORDINARY NONPARAMETRIC BOOTSTRAP
+## 
+## 
+## Call:
+## boot(data = Credit, statistic = meanfunc, R = 1000)
+## 
+## 
+## Bootstrap Statistics :
+##     original  bias    std. error
+## t1*  520.015  1.0252    22.44103
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{bootSEval }\OtherTok{\textless{}{-}} \FloatTok{22.23329}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{the-standard-error-using-bootstrap-is-22.23329.-our-standard-error-in-c-is-a-bit-higher-with-value-of-22.98794.}{%
+\subsubsection{The standard error using bootstrap is \$22.23329. Our
+standard error in c is a bit higher with value of
+\$22.98794.}\label{the-standard-error-using-bootstrap-is-22.23329.-our-standard-error-in-c-is-a-bit-higher-with-value-of-22.98794.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lower }\OtherTok{\textless{}{-}}\NormalTok{ creditBalanceMean }\SpecialCharTok{{-}} \DecValTok{2}\SpecialCharTok{*}\NormalTok{bootSEval}
+\NormalTok{upper }\OtherTok{\textless{}{-}}\NormalTok{ creditBalanceMean }\SpecialCharTok{+} \DecValTok{2}\SpecialCharTok{*}\NormalTok{bootSEval}
+\NormalTok{CI }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(lower, upper) }
+\NormalTok{CI}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 475.5484 564.4816
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{t.test}\NormalTok{(Credit}\SpecialCharTok{$}\NormalTok{Balance, }\AttributeTok{conf.level =} \FloatTok{0.95}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  One Sample t-test
+## 
+## data:  Credit$Balance
+## t = 22.621, df = 399, p-value < 2.2e-16
+## alternative hypothesis: true mean is not equal to 0
+## 95 percent confidence interval:
+##  474.8224 565.2076
+## sample estimates:
+## mean of x 
+##   520.015
+\end{verbatim}
+
+\hypertarget{from-the-results-we-can-see-that-they-are-very-similarvalues-are-very-close-to-each-other.}{%
+\subsection{From the results we can see that they are very
+similar/values are very close to each
+other.}\label{from-the-results-we-can-see-that-they-are-very-similarvalues-are-very-close-to-each-other.}}
+
+\hypertarget{question-3}{%
+\section{Question 3}\label{question-3}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tree)}
+\FunctionTok{library}\NormalTok{(gbm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loaded gbm 2.1.8
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(randomForest)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## randomForest 4.6-14
+\end{verbatim}
+
+\begin{verbatim}
+## Type rfNews() to see new features/changes/bug fixes.
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'randomForest'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:ggplot2':
+## 
+##     margin
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{setwd}\NormalTok{(}\StringTok{"H:/Documents/STAT318/Assignments/Assignment3"}\NormalTok{)}
+\NormalTok{training }\OtherTok{=} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"carseatsTrain.csv"}\NormalTok{)}
+\NormalTok{testing }\OtherTok{=} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"carseatsTest.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tree)}
+\FunctionTok{library}\NormalTok{(gbm)}
+\FunctionTok{library}\NormalTok{(randomForest)}
+\FunctionTok{library}\NormalTok{(MASS)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'MASS'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:ISLR2':
+## 
+##     Boston
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{setwd}\NormalTok{(}\StringTok{"H:/Documents/STAT318/Assignments/Assignment3"}\NormalTok{)}
+\NormalTok{training }\OtherTok{=} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"carseatsTrain.csv"}\NormalTok{)}
+\NormalTok{testing }\OtherTok{=} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"carseatsTest.csv"}\NormalTok{)}
+
+\CommentTok{\#a)}
+\NormalTok{train\_tree }\OtherTok{\textless{}{-}} \FunctionTok{tree}\NormalTok{(Sales}\SpecialCharTok{\textasciitilde{}}\NormalTok{., }\AttributeTok{data=}\NormalTok{training)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in tree(Sales ~ ., data = training): NAs introduced by coercion
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(train\_tree)}
+\FunctionTok{text}\NormalTok{(train\_tree,}
+     \AttributeTok{cex=}\FloatTok{0.5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{test_files/figure-latex/unnamed-chunk-11-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{trainingMSE }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{mean}\NormalTok{((}\FunctionTok{predict}\NormalTok{(train\_tree,}
+                \AttributeTok{newdata=}\NormalTok{training) }\SpecialCharTok{{-}}\NormalTok{ training}\SpecialCharTok{$}\NormalTok{Sales) }\SpecialCharTok{\^{}} \DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in pred1.tree(object, tree.matrix(newdata)): NAs introduced by coercion
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{testingMSE }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{mean}\NormalTok{((}\FunctionTok{predict}\NormalTok{(train\_tree,}
+              \AttributeTok{newdata=}\NormalTok{testing) }\SpecialCharTok{{-}}\NormalTok{ testing}\SpecialCharTok{$}\NormalTok{Sales) }\SpecialCharTok{\^{}} \DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in pred1.tree(object, tree.matrix(newdata)): NAs introduced by coercion
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{trainingMSE}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 4.224765
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{testingMSE}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 9.758961
+\end{verbatim}
+
+From the tree we can see that there are 22 terminal nodes. We can also
+see that Age and Advertising are the most useful predictors as age is at
+the top and advertising is in the second level.
+
+The training MSE is 4.224765 and the testing MSE is 9.758961.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#b)}
+\NormalTok{prune }\OtherTok{\textless{}{-}} \FunctionTok{cv.tree}\NormalTok{(train\_tree)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in tree(model = m[rand != i, , drop = FALSE]): NAs introduced by
+## coercion
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in pred1.tree(tree, tree.matrix(nd)): NAs introduced by coercion
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in tree(model = m[rand != i, , drop = FALSE]): NAs introduced by
+## coercion
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in pred1.tree(tree, tree.matrix(nd)): NAs introduced by coercion
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in tree(model = m[rand != i, , drop = FALSE]): NAs introduced by
+## coercion
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in pred1.tree(tree, tree.matrix(nd)): NAs introduced by coercion
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in tree(model = m[rand != i, , drop = FALSE]): NAs introduced by
+## coercion
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in pred1.tree(tree, tree.matrix(nd)): NAs introduced by coercion
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in tree(model = m[rand != i, , drop = FALSE]): NAs introduced by
+## coercion
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in pred1.tree(tree, tree.matrix(nd)): NAs introduced by coercion
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in tree(model = m[rand != i, , drop = FALSE]): NAs introduced by
+## coercion
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in pred1.tree(tree, tree.matrix(nd)): NAs introduced by coercion
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in tree(model = m[rand != i, , drop = FALSE]): NAs introduced by
+## coercion
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in pred1.tree(tree, tree.matrix(nd)): NAs introduced by coercion
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in tree(model = m[rand != i, , drop = FALSE]): NAs introduced by
+## coercion
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in pred1.tree(tree, tree.matrix(nd)): NAs introduced by coercion
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in tree(model = m[rand != i, , drop = FALSE]): NAs introduced by
+## coercion
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in pred1.tree(tree, tree.matrix(nd)): NAs introduced by coercion
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in tree(model = m[rand != i, , drop = FALSE]): NAs introduced by
+## coercion
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in pred1.tree(tree, tree.matrix(nd)): NAs introduced by coercion
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{prune}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## $size
+##  [1] 22 21 20 19 18 17 15 13 11 10  8  7  4  3  2  1
+## 
+## $dev
+##  [1] 2683.996 2593.158 2593.158 2536.654 2547.997 2549.180 2550.522 2466.178
+##  [9] 2420.034 2455.209 2267.050 2250.704 2211.161 2341.301 2367.352 2395.389
+## 
+## $k
+##  [1]      -Inf  23.48884  23.54946  28.77311  32.44689  32.60524  32.75497
+##  [8]  37.40522  38.43426  38.54855  41.61580  43.01071  69.00835  89.56740
+## [15] 109.43976 185.42861
+## 
+## $method
+## [1] "deviance"
+## 
+## attr(,"class")
+## [1] "prune"         "tree.sequence"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tree\_prune }\OtherTok{\textless{}{-}} \FunctionTok{prune.tree}\NormalTok{(train\_tree, }\AttributeTok{best=}\DecValTok{8}\NormalTok{)}
+\FunctionTok{plot}\NormalTok{(tree\_prune)}
+\FunctionTok{text}\NormalTok{(tree\_prune,}
+     \AttributeTok{cex=}\FloatTok{0.5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{test_files/figure-latex/unnamed-chunk-12-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pruneMSE }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{mean}\NormalTok{((}\FunctionTok{predict}\NormalTok{(tree\_prune, }
+                  \AttributeTok{newdata=}\NormalTok{testing) }\SpecialCharTok{{-}}\NormalTok{ testing}\SpecialCharTok{$}\NormalTok{Sales)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in pred1.tree(object, tree.matrix(newdata)): NAs introduced by coercion
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pruneMSE}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 7.004235
+\end{verbatim}
+
+When we compare the pruned tree MSE and the non pruned tree MSE we can
+see that the pruned tree MSE (7.004235) is less than the non pruned tree
+(9.758961). So therefore the pruned tree does perform better.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#c)}
+\NormalTok{randForest }\OtherTok{\textless{}{-}} \FunctionTok{randomForest}\NormalTok{(Sales}\SpecialCharTok{\textasciitilde{}}\NormalTok{.,}\AttributeTok{data=}\NormalTok{training,}\AttributeTok{importance=}\ConstantTok{TRUE}\NormalTok{)}
+
+\NormalTok{RF\_train\_MSE }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{mean}\NormalTok{((}\FunctionTok{predict}\NormalTok{(randForest, }\AttributeTok{newdata=}\NormalTok{training) }\SpecialCharTok{{-}}\NormalTok{ training}\SpecialCharTok{$}\NormalTok{Sales)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))}
+\NormalTok{RF\_test\_MSE }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{mean}\NormalTok{((}\FunctionTok{predict}\NormalTok{(randForest, }\AttributeTok{newdata=}\NormalTok{testing) }\SpecialCharTok{{-}}\NormalTok{ testing}\SpecialCharTok{$}\NormalTok{Sales)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))}
+
+\NormalTok{RF\_train\_MSE}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1.142022
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{RF\_test\_MSE}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 5.02013
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{bagged }\OtherTok{\textless{}{-}} \FunctionTok{randomForest}\NormalTok{(Sales}\SpecialCharTok{\textasciitilde{}}\NormalTok{.,}\AttributeTok{data=}\NormalTok{training,}\AttributeTok{mtry=}\DecValTok{9}\NormalTok{,}\AttributeTok{importance=}\ConstantTok{TRUE}\NormalTok{)}
+
+\NormalTok{bagged\_train\_MSE }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{mean}\NormalTok{((}\FunctionTok{predict}\NormalTok{(bagged, }\AttributeTok{newdata=}\NormalTok{training) }\SpecialCharTok{{-}}\NormalTok{ training}\SpecialCharTok{$}\NormalTok{Sales)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))}
+\NormalTok{bagged\_test\_MSE }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{mean}\NormalTok{((}\FunctionTok{predict}\NormalTok{(bagged, }\AttributeTok{newdata=}\NormalTok{testing) }\SpecialCharTok{{-}}\NormalTok{ testing}\SpecialCharTok{$}\NormalTok{Sales)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))}
+
+\NormalTok{bagged\_train\_MSE}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.9690412
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{bagged\_test\_MSE}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 4.986184
+\end{verbatim}
+
+The random forest training MSE had a value of 1.157876 and the random
+forest testing MSE had a value of 4.981077. The bagged training MSE is
+0.9528967 and the bagged testing MSE is 4.968944. Because bagging has
+smaller MSE values in both training and testing decorrelating was not a
+good strategy for this problem.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{train }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(training), }\FunctionTok{nrow}\NormalTok{(training)}\SpecialCharTok{/}\DecValTok{2}\NormalTok{)}
+\NormalTok{training[train,]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     Sales CompPrice Income Advertising Population ShelveLoc Age Education Urban
+## 172 11.27       153     68           2         60      Good  59        16   Yes
+## 229  4.94       137    112          15        434       Bad  66        13   Yes
+## 15   6.18       120     70          15        464    Medium  72        15   Yes
+## 16   6.67       156     42          13        170      Good  74        14   Yes
+## 9   11.07       131     84          11         29    Medium  44        17    No
+## 194  8.78       130     30           0        391    Medium  26        18   Yes
+## 198  5.53       126     32           8         95    Medium  50        17   Yes
+## 130  8.77       118     86           7        265      Good  52        15    No
+## 108  6.41       125     90           2        367    Medium  35        18   Yes
+## 39   3.91       116     52           0        349       Bad  69        18   Yes
+## 60   8.86       145     30           0         67    Medium  55        17   Yes
+## 148  4.90       122     26           0        197    Medium  55        13    No
+## 33   4.43       134     48           1        139    Medium  65        12   Yes
+## 127  6.11       133     88           3        105    Medium  79        12   Yes
+## 146  9.58       108    104          23        353      Good  37        17   Yes
+## 22   5.87       121     31           0        292    Medium  79        10   Yes
+## 189  6.54       132    110           0        108    Medium  76        10    No
+## 156  5.32       118     74           6        426    Medium  80        18   Yes
+## 44   7.96       157     53           0        403       Bad  58        16   Yes
+## 209  8.07       116     37           0        426    Medium  76        15   Yes
+## 35   3.98       122     35           2        393    Medium  62        18   Yes
+## 234  8.77       144     63          11         27    Medium  47        17   Yes
+## 114 10.48       138     72           0        148    Medium  27        17   Yes
+## 155  7.56       110    119           0        384    Medium  72        14    No
+## 91   7.36       121     24           0        200      Good  73        13   Yes
+## 101  5.57       109     51          10         26    Medium  30        17    No
+## 117  9.53       175     65          29        419    Medium  53        12   Yes
+## 58   8.89       122     76           0        270      Good  60        18    No
+## 224 11.62       151     83           4        325      Good  28        17   Yes
+## 100  6.50       148     51          16        148    Medium  58        17    No
+## 47  10.59       131    120          15        262    Medium  30        10   Yes
+## 252  9.01       121     78           9        150       Bad  26        10    No
+## 73   5.42       103     93          15        188       Bad  74        16   Yes
+## 242  8.68       131     25          10        183    Medium  56        15    No
+## 179  4.69       132    113           0        131    Medium  76        17    No
+## 245 10.51       140     54           9        402      Good  41        16    No
+## 169  9.62       151     28           8        499    Medium  48        10   Yes
+## 254  3.90       124     65          21        496       Bad  77        13   Yes
+## 210  2.66       136     65           4        133       Bad  53        13   Yes
+## 165  5.05       125     67           0         86       Bad  65        11   Yes
+## 126  5.94       138     83           0        139    Medium  54        18   Yes
+## 144 12.66       148     76           3        126      Good  60        11   Yes
+## 52   8.65       123     76          18        218    Medium  29        14    No
+## 49  12.57       132    102          20        459      Good  49        11   Yes
+## 20   7.67       129    117           8        400       Bad  36        10   Yes
+## 211  4.99       122     59           0        501       Bad  32        14    No
+## 36   5.32       152    116           0        170    Medium  39        16   Yes
+## 266  7.74       150     96           0         80      Good  61        11   Yes
+## 51   2.86       121     86          10        496       Bad  51        10   Yes
+## 19   5.64       124     24           5        288    Medium  57        12    No
+## 214  8.87       131    113           0        181      Good  63        14   Yes
+## 82   5.21       118     71           4        148    Medium  80        13   Yes
+## 240 12.44       127     90          14         16    Medium  48        15    No
+## 255  5.61       138    107           9        480    Medium  47        11    No
+## 196  7.23       112     98          18        481    Medium  45        11   Yes
+## 183  6.90       120     56          20        266       Bad  78        18   Yes
+## 256  8.80       145     53           0        507    Medium  41        12   Yes
+## 88   5.94       100     79           7        284       Bad  50        12   Yes
+## 230  6.52       128     42           0        436    Medium  80        11   Yes
+## 204  8.67       142     73          14        238    Medium  73        14    No
+## 124  4.42       109     36           7        468       Bad  56        11   Yes
+## 153  5.56       144     92           0        349    Medium  62        12    No
+## 249 11.18       131    111          13         33       Bad  68        18   Yes
+## 92   6.03       117     32           0        142       Bad  62        17   Yes
+## 99   7.70       118     71          12         44    Medium  67        18    No
+## 205  3.67       132     31           0        327    Medium  76        16   Yes
+## 142  4.69       133     30           0        152    Medium  53        17   Yes
+## 257  8.43       138     80           0        108      Good  70        13    No
+## 212  7.82       124     25          13         87    Medium  57        10   Yes
+## 113  0.00       139     24           0        358    Medium  79        15    No
+## 2    6.85       143     81           5         60    Medium  61        18   Yes
+## 68   9.95       132     33           7         35    Medium  60        11    No
+## 259  3.62       112     80           5        500    Medium  69        10   Yes
+## 109  5.68       130     64           0         40       Bad  39        17    No
+## 147 11.93       123     98          12        408      Good  29        10   Yes
+## 232  6.81       132     61           0        263    Medium  41        12    No
+## 18   8.85       127     92           0        508    Medium  56        18   Yes
+## 250  6.53       140     42           0        331       Bad  28        15   Yes
+## 138  9.08       152     81           0        191    Medium  54        16   Yes
+## 65   4.81       121     68           0        279      Good  79        12   Yes
+## 236  7.81       104     99          15        226       Bad  58        17   Yes
+## 233  9.40       135     40          17        497    Medium  54        17    No
+## 40  10.98       148     63           0        312      Good  63        15   Yes
+## 188  5.36       135    110           0        112    Medium  80        16    No
+## 37   7.99       127     59           0        339    Medium  65        12   Yes
+## 87   2.99       103     74           0        359       Bad  55        11   Yes
+## 216 10.64       102     87          10        346    Medium  64        15   Yes
+## 150  7.60       146     26          11        261    Medium  39        10   Yes
+## 145  7.22       114    113           2        129      Good  40        15    No
+## 219  4.53       129     42          13        315       Bad  34        13   Yes
+## 13   8.70       150     84           9        432    Medium  64        15   Yes
+## 84  13.28       139     70           7         71      Good  61        10   Yes
+## 238  7.80       136     48          12        326    Medium  36        16   Yes
+## 123  5.28       108     77          13        388       Bad  74        14   Yes
+## 141  4.10       134     82           0        464    Medium  48        13    No
+## 63   4.21       118     35          14        502    Medium  79        10    No
+## 93   8.01       128     39          12        356    Medium  71        10   Yes
+## 203  8.57       116     78           1        158    Medium  45        11   Yes
+## 8    5.30       113     22           0         57    Medium  65        16    No
+## 129 12.53       142     90           1        189      Good  39        10    No
+## 85   9.32       134     27          18        467    Medium  49        14    No
+## 12   9.45       107     67          12        430    Medium  35        12    No
+## 131  8.69       113     64          10         68    Medium  57        16   Yes
+## 139  6.71       119     67          17        151    Medium  55        11   Yes
+## 243 10.81       124    113          13        501       Bad  78        16    No
+## 25  15.63       122     36           5        369      Good  35        10   Yes
+## 79   5.25       131     55           0         26       Bad  79        12   Yes
+## 207 12.57       138    108          17        203      Good  33        14   Yes
+## 171  9.39       117    118          14        445    Medium  32        15   Yes
+## 94  13.39       149     69          20        366      Good  60        13   Yes
+## 66   4.36       125     41           2        357       Bad  47        14    No
+## 57   3.47       107     79           2        488       Bad  65        16   Yes
+## 122  2.67       115     54           0        406    Medium  42        17   Yes
+## 237  6.41       142     30           0        472      Good  80        15    No
+## 217 10.44       124    115          16        458    Medium  62        16    No
+## 3    5.68       113     22           1        317    Medium  28        12   Yes
+## 157 10.96       115     28          11         29      Good  53        18   Yes
+## 149  6.43       124     44           0        125    Medium  80        11   Yes
+## 244  7.72       133     33          10        333      Good  71        14   Yes
+## 102 10.31       159     80           0        362    Medium  26        18   Yes
+## 95   9.70       138     61          12        156    Medium  25        14   Yes
+## 77   6.20       107     32          12        236      Good  64        10    No
+## 231  5.58       137     71           0        402    Medium  78        17   Yes
+## 128  7.41       162     26          12        368    Medium  40        18   Yes
+## 265  7.40       117    100           4        466    Medium  55        14   Yes
+## 26   7.58       118     32           0        284      Good  63        13   Yes
+## 42  14.37        95    106           0        256      Good  52        17   Yes
+## 215  5.17       131     75           0         10       Bad  31        18    No
+## 6    0.16       102     33           0        217    Medium  70        18    No
+## 176  7.78       144     25           3         70    Medium  77        18   Yes
+## 206  4.10       121     78           4        413       Bad  46        10    No
+## 105  3.47       108     38           0        251       Bad  72        14    No
+## 61   7.68       126     41          22        403       Bad  42        12   Yes
+##      US
+## 172 Yes
+## 229 Yes
+## 15  Yes
+## 16  Yes
+## 9   Yes
+## 194  No
+## 198 Yes
+## 130 Yes
+## 108 Yes
+## 39   No
+## 60   No
+## 148  No
+## 33  Yes
+## 127 Yes
+## 146 Yes
+## 22   No
+## 189  No
+## 156 Yes
+## 44   No
+## 209  No
+## 35   No
+## 234 Yes
+## 114 Yes
+## 155 Yes
+## 91   No
+## 101 Yes
+## 117 Yes
+## 58   No
+## 224 Yes
+## 100 Yes
+## 47  Yes
+## 252 Yes
+## 73  Yes
+## 242 Yes
+## 179 Yes
+## 245 Yes
+## 169 Yes
+## 254 Yes
+## 210 Yes
+## 165  No
+## 126  No
+## 144 Yes
+## 52  Yes
+## 49  Yes
+## 20  Yes
+## 211  No
+## 36   No
+## 266  No
+## 51  Yes
+## 19  Yes
+## 214  No
+## 82   No
+## 240 Yes
+## 255 Yes
+## 196 Yes
+## 183 Yes
+## 256  No
+## 88  Yes
+## 230  No
+## 204 Yes
+## 124 Yes
+## 153  No
+## 249 Yes
+## 92   No
+## 99  Yes
+## 205  No
+## 142  No
+## 257 Yes
+## 212 Yes
+## 113  No
+## 2   Yes
+## 68  Yes
+## 259 Yes
+## 109  No
+## 147 Yes
+## 232  No
+## 18   No
+## 250  No
+## 138  No
+## 65   No
+## 236 Yes
+## 233 Yes
+## 40   No
+## 188  No
+## 37   No
+## 87  Yes
+## 216 Yes
+## 150 Yes
+## 145 Yes
+## 219 Yes
+## 13   No
+## 84  Yes
+## 238 Yes
+## 123 Yes
+## 141  No
+## 63  Yes
+## 93  Yes
+## 203 Yes
+## 8    No
+## 129 Yes
+## 85  Yes
+## 12  Yes
+## 131 Yes
+## 139 Yes
+## 243 Yes
+## 25  Yes
+## 79  Yes
+## 207 Yes
+## 171 Yes
+## 94  Yes
+## 66  Yes
+## 57   No
+## 122 Yes
+## 237  No
+## 217 Yes
+## 3    No
+## 157 Yes
+## 149  No
+## 244 Yes
+## 102  No
+## 95  Yes
+## 77  Yes
+## 231  No
+## 128 Yes
+## 265 Yes
+## 26   No
+## 42   No
+## 215  No
+## 6    No
+## 176 Yes
+## 206 Yes
+## 105  No
+## 61  Yes
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{training}\SpecialCharTok{$}\NormalTok{ShelveLoc }\OtherTok{\textless{}{-}} \FunctionTok{as.factor}\NormalTok{(training}\SpecialCharTok{$}\NormalTok{ShelveLoc)}
+\NormalTok{training}\SpecialCharTok{$}\NormalTok{Urban  }\OtherTok{\textless{}{-}} \FunctionTok{as.factor}\NormalTok{(training}\SpecialCharTok{$}\NormalTok{Urban)}
+\NormalTok{training}\SpecialCharTok{$}\NormalTok{US  }\OtherTok{\textless{}{-}} \FunctionTok{as.factor}\NormalTok{(training}\SpecialCharTok{$}\NormalTok{US)}
+
+\NormalTok{boost\_tree }\OtherTok{\textless{}{-}} \FunctionTok{gbm}\NormalTok{(Sales}\SpecialCharTok{\textasciitilde{}}\NormalTok{.,}
+                  \AttributeTok{data=}\NormalTok{training[train,],}
+                  \AttributeTok{distribution=}\StringTok{"gaussian"}\NormalTok{,}
+                  \AttributeTok{n.trees=}\DecValTok{5000}\NormalTok{,}
+                  \AttributeTok{interaction.depth=}\DecValTok{4}\NormalTok{,}
+                  \AttributeTok{shrinkage=}\FloatTok{0.05}\NormalTok{)}
+
+
+\FunctionTok{summary}\NormalTok{(boost\_tree)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{test_files/figure-latex/unnamed-chunk-14-1.pdf}
+
+\begin{verbatim}
+##                     var    rel.inf
+## Age                 Age 16.3333458
+## ShelveLoc     ShelveLoc 15.9938461
+## Income           Income 15.7795006
+## Population   Population 14.5785289
+## CompPrice     CompPrice 14.1407695
+## Advertising Advertising 11.2815419
+## Education     Education  9.2579555
+## Urban             Urban  1.7117370
+## US                   US  0.9227747
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{MSE\_calc }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) \{}
+\NormalTok{  MSE\_train\_calc }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{mean}\NormalTok{((}\FunctionTok{predict}\NormalTok{(x, }
+                                 \AttributeTok{newdata=}\NormalTok{training) }\SpecialCharTok{{-}}\NormalTok{ training}\SpecialCharTok{$}\NormalTok{Sales)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))}
+\NormalTok{  MSE\_test\_calc }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{mean}\NormalTok{((}\FunctionTok{predict}\NormalTok{(x, }
+                                \AttributeTok{newdata=}\NormalTok{testing) }\SpecialCharTok{{-}}\NormalTok{ testing}\SpecialCharTok{$}\NormalTok{Sales)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))}
+  
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{c}\NormalTok{(MSE\_train\_calc, MSE\_test\_calc))}
+\NormalTok{\}}
+
+\NormalTok{boost\_tree }\OtherTok{\textless{}{-}} \FunctionTok{gbm}\NormalTok{(Sales}\SpecialCharTok{\textasciitilde{}}\NormalTok{.,}
+                  \AttributeTok{data=}\NormalTok{training[train,],}
+                  \AttributeTok{distribution=}\StringTok{"gaussian"}\NormalTok{,}
+                  \AttributeTok{n.trees=}\DecValTok{1000}\NormalTok{,}
+                  \AttributeTok{interaction.depth=}\DecValTok{1}\NormalTok{,}
+                  \AttributeTok{shrinkage=}\FloatTok{0.005}\NormalTok{)}
+
+
+\FunctionTok{summary}\NormalTok{(boost\_tree)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{test_files/figure-latex/unnamed-chunk-14-2.pdf}
+
+\begin{verbatim}
+##                     var    rel.inf
+## ShelveLoc     ShelveLoc 36.8098019
+## Age                 Age 18.3679573
+## Advertising Advertising 15.1019513
+## CompPrice     CompPrice 11.8998414
+## Income           Income 11.1032032
+## Population   Population  3.4896929
+## US                   US  1.5302010
+## Education     Education  0.8607943
+## Urban             Urban  0.8365567
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{boost\_train\_MSE }\OtherTok{\textless{}{-}} \FunctionTok{MSE\_calc}\NormalTok{(boost\_tree)[}\DecValTok{1}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Using 1000 trees...
+## 
+## Using 1000 trees...
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predict.gbm(x, newdata = testing): NAs introduced by coercion
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{boost\_test\_MSE }\OtherTok{\textless{}{-}} \FunctionTok{MSE\_calc}\NormalTok{(boost\_tree)[}\DecValTok{2}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Using 1000 trees...
+## 
+## Using 1000 trees...
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in predict.gbm(x, newdata = testing): NAs introduced by coercion
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{boost\_train\_MSE}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 4.815928
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{boost\_test\_MSE}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 6.383885
+\end{verbatim}
+
+After trying different depths, shrinkage and number of trees I have
+found that 1000 trees with depth 1 and shrinkage gave me a training MSE
+of 4.311855 and testing MSE of 6.474855 which was my best one. When I
+tested different values I found that increasing the depth, number of
+trees and shrinkage would increase the MSE values.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  I believe bagging model performed the best as it had a testing MSE of
+  4.968944 which was the smallest. The Sales were the most important for
+  the predictors.
+\end{enumerate}
+
+\end{document}

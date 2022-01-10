@@ -1,0 +1,530 @@
+---
+title: "Getting started with R"
+output: 
+  html_notebook: 
+    number_sections: yes
+    toc: yes
+---
+#Introduction
+There are several ways to interact this this material. We shall begin by viewing this as an HTML page in a web browser and copying fragments of code into a session of RStudio.
+
+Later on you can drive RStudio on your own.
+
+Start a session of RStudio and be ready to copy and paste the grey-box styled code like the one shown below.
+```{r}
+# This is a comment line of R code. 
+print("Welcome to R") # this is another R comment
+```
+Notice that you are able to copy and paste multiple lines at one time. R will process them in sequence.
+
+#Variables
+
+##Assigning values
+In R we can assign a variable (myVar) a value. Normally each line represents a complete program instruction. In this case **assign 27 to the variable myVar**
+
+We print the value several ways. The most convenient way is to put the variable on a line of its own.
+
+```{r}
+myVar = 27
+myVar
+```
+Variables in R are case sensitive. That means **myVar** and **myvar** would be separate variables. This is a common mistake especially for beginners.  
+
+In R a variable must begin with a letter and may contain letters, digits amd dots. Suppose you really really realy wanted a variable called "99 my first ** weird variable", it is possible.
+
+```{r}
+`99 my first ** weird $variable` = 55
+print(`99 my first ** weird $variable`)
+```
+Some good advice: Do not do this - it makes your code very hard to understand.  
+These delimiters are called back-ticks and the key can be found beneath the Esc key on most keyboards.
+  
+In R, variables typically contain a list of things rather than just a single thing. Of course a list can also contain just a sinle value as a special case.  
+One way to create a list of values is the **c()** function.
+
+```{r}
+myVar = c(27,28,29,30,67,92)
+myVar
+```
+You can read the **c()** as meaning "column" even though the correct interpretation is that the variable is a "vector".
+  
+There is more than one way to assign a variable. In these lessons we shall use the **=** assignment operator. We could also use <code>assign("myVar", c(27,28,29,30,67,92))</code>. There is another style that you will frequently encounter: <code>myVar <- c(27,28,29,30,67,92)</code>. For *our* purposes these are equivalent.
+
+
+##Variable Types
+
+What types of variables does R support?  
+
+In R there are 4 common types of variable.
+
+- Numeric variables - these can be decimal or integer
+- Character string variables - these can be varying lengths of letters, numbers & punctuation
+- Logical - TRUE or FALSE
+- Factor - short strings that occur frequently e.g. "Low" / "Medium" / "High"
+- Date - dates and times displayed using a particular format
+
+```{r}
+myNum = c(1,2,3,pi)
+myNum
+```
+```{r}
+myChar = c("The ", "quick", " brown fox jumped ", "over the lazy dog 27 times")
+myChar
+```
+```{r}
+myLog = c(TRUE, TRUE, FALSE, TRUE)
+myLog
+```
+Below is an example of an ordered factor.
+```{r}
+myFactor <- factor(x = c("High", "Low", "Low", "Medium", "Low", "High"), levels = c("Low", "Medium", "High"), ordered = TRUE)
+print(myFactor)
+```
+
+
+
+##Print layout
+What is going on with the [1]?
+
+When R prints a list, it does so in a particular style. Suppose a list was 100 long. How would you locate the 76th item. Let's try that
+```{r}
+set.seed(99)
+runif(100, max = 50)
+```
+
+Using the [??] indices it is possible to locate the 76th case as "4.52055981"
+
+##Random numbers
+What was the stuff with set.seed and runif?
+
+**runif()** is an R function that randomly samples from a uniform distribution. It is called a pseudo random sample because it is not truely random. I know that the next number it will generate is going to be
+2.872463
+Let's check:
+```{r}
+runif(1,max = 50)
+```
+The **set.seed()** function controls the particular sequence it will generate. 
+
+We will encounter **runif()**, **rnorm()** functions again and again. We need these tools to (pseudo) randomly pick test and train cases for example.
+
+##Consider lists
+
+Suppose we consider grocery shopping lists. We might think of things on the list as being the things we need to buy.
+For example:
+
+- Coffee
+- Milk
+- Biscuits (chocolate)
+- Carrots
+- Rice (basmati)
+- Juice (apple)
+
+This looks like a character variable. Let's create this in R and print it. Notice that we are using the explicit **print** rather than the implicit one.
+```{r}
+shopping = c("Coffee", "Milk", "Biscuits (chocolate)", "Carrots", "Rice (basmati)", "Juice (apple)")
+print(shopping)
+```
+
+Suppose we want to reuse this list from one week to the next. What needs to change?  
+Now it becomes about whether an item is actually needed this week. How might we do this in R?  
+We want to shift from a list of characters to a logical list *that is labelled*.
+
+```{r}
+shopping = c(`Coffee` = TRUE, `Milk` = TRUE, `Biscuits (chocolate)` = TRUE, `Carrots` = FALSE, `Rice (basmati)` = FALSE, `Juice (apple)` = FALSE, `Juice (orange)` = TRUE)
+print(shopping)
+```
+
+We have created a list of TRUE/FALSE entries against the names of the shopping items. That was easy.
+
+##Lists of lists
+
+Suppose I have kept the shopping lists I have used for the last 12 months.  
+Also, suppose I labelled these lists with the date.  
+This is how I might populate variables in R with this data. This way assumes I never misspell a grocery item or describe the same thing differently - put that objection out of your head for now.
+```{r}
+Jan06 = c(`Coffee` = FALSE, `Milk` = TRUE, `Biscuits (chocolate)` = FALSE, `Carrots` = TRUE, `Rice (basmati)` = FALSE, `Juice (apple)` = FALSE, `Juice (orange)` = TRUE)
+Jan11 = c(`Coffee` = TRUE, `Milk` = TRUE, `Biscuits (chocolate)` = TRUE, `Carrots` = FALSE, `Rice (basmati)` = TRUE, `Juice (apple)` = TRUE, `Juice (orange)` = FALSE)
+Jan15 = c(`Coffee` = FALSE, `Milk` = TRUE, `Biscuits (chocolate)` = TRUE, `Carrots` = FALSE, `Rice (basmati)` = FALSE, `Juice (apple)` = TRUE, `Juice (orange)` = FALSE)
+```
+Obviously we are going to stop at 3 lists because this is a teaching exercise and not an endurance test.  
+  
+How do we combine these things into a list of lists?
+```{r}
+shoppingHistory = list(Jan06, Jan11, Jan15)
+```
+
+Hold on, earlier we used **c()** and now we have switched to **list()**. What is going on?  
+
+A "vector" is a special list in which the values are 
+
+- single things
+- of the same type
+
+A "list" is a general collection of anything (including other lists) and the entries can be different types.
+
+```{r}
+print(shoppingHistory)
+```
+
+We were able to label out shopping items; can we label out shopping lists?
+
+```{r}
+shoppingHistory = list(`Jan06`=Jan06, `Jan11`=Jan11, `Jan15`=Jan15)
+print(shoppingHistory)
+```
+
+##What have you learned?
+
+- Everything in R is a list or built up using lists
+- A vector is a special list of the same type of singular thing (e.g. all numeric values)
+- Lists can be labelled - this is optional and can be useful for navigating through the list
+
+#Operators
+Numeric operators are processes like **multiplication, addition, power, log, sin**, etc  
+Logical operators are processes like **and, or, not** etc  
+Character operators are processes like **concatenation, splitting, length** etc  
+
+How do we use operators with lists of things?
+
+##Numeric operators
+Suppose we populate variables A and B in the following way:
+```{r}
+A = c(19,21,4,17,5)
+B = c(5,11,9,13,19)
+```
+
+What does the multiplication of A and B look like? What does it produce?
+
+```{r}
+A * B
+```
+The result is an element-wise multiplication.  
+  
+What does A cubed look like? What does it produce?
+
+```{r}
+A^3
+```
+The result is an element-wise cubing.  
+  
+What does A to the power of B look like? What does it produce?
+
+```{r}
+A^B
+```
+The result is 19^5, 21^11, 4^9 etc  
+  
+This should be starting to look sensible. It is not always so obvious though. Suppose I want the largest value in A
+```{r}
+max(A)
+```
+We are not done yet. Suppose I want the largest value in A or B
+```{r}
+max(c(A,B))
+```
+We had to create a new variable which was the combination of the two lists and then test that for the maximum. We are not finished yet. Suppose we wanted the pair-wise maximum of A and B
+```{r}
+pmax(A,B)
+```
+What we have avoided using is **max(A,B)**. So what does this produce?
+
+```{r}
+max(A,B)
+```
+Clearly this is the same as **max(c(A,B))**. It does not do the pairwise operation - that requires **pmax()**
+
+
+Lets consider what happens when the lengths of the two vectors is not the same. Firstly lets use a vector of length 1
+```{r}
+B * 10
+```
+This should be identical to B * c(10). Let's check...
+```{r}
+B*c(10)
+```
+When the lengths do not match the shorter vector is repeated until it reaches the right length. In this case the 10 was repeated five times to match the length of B.
+
+Now let's try multiplying by c(10,100)
+```{r}
+B*c(10,100)
+```
+Notice two things:  
+
+1 The calculation proceeded and produced: [1]   50 1100   90 1300  190
+2 There was a warning objecting to what you were trying to do: *longer object length is not a multiple of shorter object length*
+
+Since, 5 is not a multiple of 5, the rule about repeating the shorter variable does not make much sense - hence the warning.
+
+
+
+
+##Logical operators
+
+Suppose we populate variables J and K in the following way:
+```{r}
+J = c(T,F,F,T,F)
+K = c(F,T,F,T,T)
+```
+
+The characters ! & | have a special meaning in logical expressions (as they do in most programming languages). *R also supports shortcut boolean (&& and ||) but these are reserved for single valued logical expressions rather than multiple values expressions - therefore we do not get many opportunities to shortcut boolean expressions.*
+
+To AND I and J together we do the following
+```{r}
+J & K
+```
+To OR I and J together we do the following
+```{r}
+J | K
+```
+To evaluate NOT J we do the following
+```{r}
+!J
+```
+How do we check if J has any TRUE values? 
+```{r}
+any(J)
+
+```
+How do we check if K has all FALSE values? 
+```{r}
+all(!K)
+```
+Notice that **any()** and **all()** only ever return a single value - never a list.
+  
+  
+We can also switch between numeric and boolean.
+```{r}
+L = A > 10
+L
+```
+
+We can think of TRUE being 1 and FALSE being 0. When we use a logical variable in a numeric expression it is tolerated just fine. Do make sure that the effect is what you intend and not a typo. Tricks like this allow efficient code that few people will be able to follow.
+```{r}
+L * B
+```
+
+##Character operators
+
+The big issue with character variables is how non-intuitive concatenation can be. Once you master this you have done the difficult part.
+
+Character variables should NOT be thought of as a sequence of letters that make up a character string. In many programming languages this is the paradigm - not so in R. The simplest thing is a variable length character string and a list of these is assigned to a variable.
+
+```{r}
+V = c("The best day of my life")
+length(V)
+```
+The number of characters in the variable length string can be found using the **nchar()** function:
+```{r}
+nchar(V)
+```
+
+To split a string into words we can use strsplit()
+```{r}
+strsplit(V, split = " ")
+```
+Notice that this is a naive implementation as punctuation and new-line characters also determine string splitting. This issue takes us into the fascinating territory of regular expressions but sadly that is not going to happen today. There are plently of resources on the internet that teach regular expressions.
+
+Notice also that the output is a list of one thing: a vector of character strings. This is so that strsplit() can operate on vectors longer than 1; we gave it a vector of length 1
+
+```{r}
+words <- unlist(strsplit(V, split = " "))
+words
+```
+Notice that the **unlist()** function was introduced to convert the (unnecessary) list back into a vector of words.  
+  
+Now we turn to concatenation. Suppose we wanted to join the words we just split, back into a single string using a  dot as a word separator. We need to employ a function called **paste()**
+```{r}
+paste(words, collapse = ".")
+```
+The collapse parameters controls whether the concatenation is going to be element wise or vector wise. In this case we are collapsing the list into a single value.  
+  
+We could have choosen to append something to the end of each word (say a dash).
+```{r}
+paste(words, "-")
+```
+Notice that a space has crept in. To get rid of that we must change a default parameter and try again.
+```{r}
+paste(words, "-", sep = "")
+```
+
+##What have you learned?
+
+- Variables honour element-wise behaviour - be aware of **max()**/**pmax()**
+- Length mismatches do NOT fail - warnings are there to guide you 
+- Logical variables can be used in numeric expressions
+- Character vaiables are lists of strings not necessarily letters/digits etc
+- **paste()** will do concatentation but you need to think about how the concatenation should work.
+
+#Packages
+##What is a package?  
+A package is a set of R functions and data sets that are bound together in a single resource.
+So far, we have been using functions from the **base** package which is available as a language foundation.
+
+We could have written the **max()** as **base::max()**, these are refering to the same function. Sometimes more than one package refers to the same function (the **select()** function is a good example of this), and which one will be used may not be predictable. In situations like this, reverting to the full name solves the issue (e.g. dplyr::select() )
+
+You load a package with the R function **library()**
+```{r}
+library(rpart)
+```
+
+In order for this function to work, your local R installation must know about this package. During the labs, you are assured that every official package has already been installed. However on your personal laptops this is unlikely to be the case.
+Official packages are referred to as Comprehensive R Archive Network (CRAN) packages.
+
+##Installing packages
+The easiest what to install a package is to let RStudio do it for you. Locate the lower-right pane of RStudio and select the *Packages* tab.Use the install button to locate and install packages.  
+  
+Doing the same thing through the console involves the **install.packages()** function.
+```{r exec=FALSE, include=FALSE}
+install.packages("rpart")
+```
+
+In order to find out what has been installed already, use the command:
+```{r}
+as.data.frame(installed.packages())
+```
+
+The function **installed.packages()** provides a list of lists - which does not print very nicely. It has been converted into a *data.frame* which is a collection of vectors of the same length that can be considered to have columns and rows. This type of object displays out very nicely as you can see using an iteractive view but this is an R notebook feature (not one that works the same way from the console)
+
+What does suit the the console is the following:
+```{r}
+View(installed.packages())
+```
+
+##What have you learned?
+
+- Packages need to be downloaded and installed on your personal laptops
+- You have no need to do this on the university machines
+- You can prefix functions using the :: syntax
+- Using RStudio to manage your packages is the best strategy
+
+#Datasets
+
+##Loading datasets
+Datasets can be imported into R one of four common ways:
+
+1 Load a package that has datasets in it
+2 Read a Comma Separated Variables (CSV) file into R using (say) <code>read.csv()</code>
+3 Employ a database query
+4 Load a RDATA data file in which R has previously written a dataset (which begs the question: how was that data loaded?)
+
+We shall focus on package data for now.
+
+To find out what datasets are already loaded (due to the currently loaded foundation packages) use the following command
+```{r eval=FALSE}
+data()
+```
+
+##Viewing datasets
+Let's have a look at *trees*
+```{r}
+data(trees)
+View(trees)
+```
+
+Can we summarise this dataset?
+```{r}
+summary(trees)
+```
+
+```{r}
+str(trees)
+```
+
+##What have we learned?
+
+- What a data frame is and how to look at it and in it
+- Datasets often (but not always) data frames
+- There are many datasets available in R (some packages, *datasets* & *carData*, are composed only of datasets)
+
+#Missing values
+When a value in a vector is not present, it is said to be missing. This may be due to several reasons
+
+1. The value is not currently available e.g. Customer declined to answer question 4 on a survey
+2. The value is not applicable (by definition) for this case e.g. shoe size of a double amputee
+
+When data arrives via CSV files, missing values can be implied by a jap in the data or by a placeholder (like -99). In either case the right way to record this in R is with the special value **NA**
+
+Suppose a variable has a missing value:
+```{r}
+Var = c(12,4,56,8,9,NA,41,30)
+Var
+```
+
+We can detect this with a function
+```{r}
+is.na(Var)
+```
+
+```{r}
+paste("Variable Var has", sum(is.na(Var)), "missing values")
+```
+##Operations with NA
+Any computation done with NA generates NA
+```{r}
+Var * 5
+```
+
+```{r}
+mean(Var)
+```
+ If we want to calculate a statistic like **mean** that is potentially tolerant of missing values, we can often instruct it to be tolerant:
+```{r}
+mean(Var, na.rm = TRUE)
+```
+##What have you learned?
+
+- Missing values are built into R
+- Operations honour NA.
+- Use *is.na()* to locate missing values
+
+#Functions, if statements and for loops
+
+Like all programming languages R supports functions. R does not have procedures - only functions.
+
+Like all programming languages R supports looping. There is much written on the internet about avoiding looping in R at all cost. This should not concern you - looping may not be the fastest mechanism that R provides but it is a thousand times clearer than the alternatives. 
+
+To create a function that negates every second entry in a vector:
+```{r}
+negate2nd = function(x) {
+  for (i in 1:length(x)) {
+    if (i %% 2 == 1) {
+      x[i] = -x[i]
+    }
+  }
+  x
+}
+```
+When this code is run, nothing happens. Why?
+
+Some clarifications:
+
+- %% is the modulus operator 1%%2 = 1, 2%%2 = 0, 3%%2 = 1 etc
+- == is an equality test - the values of the variables must be equal
+- The for loop is contained by its brackets - there is no "endfor"
+- The if statement is contained by its brackets - there is no "endif" but there are *else if* and *else* elements available.
+- 1:length(x) is shorthand for creating c(1, 2, 3...number of elements in x)
+- The for loop is going to take consecutive elements from the list *1:length(x)*
+- x[i] relates to a single entry from x at position i
+- x[i] can be used to both read and write to x 
+- x is the last line executed in the function so this is what the function will return
+  
+  
+Let's try it
+```{r}
+myvar = c(9,5,7,3,0,6,6,1)
+negate2nd(myvar)
+```
+Whoops, it sems like it is negating from the first element. **Can you fix the function?**  
+  
+  
+In R functions can be addressed as variables. I can pass them around as parameters and I can print them.
+```{r}
+print(negate2nd)
+```
+
+##What have you learned?
+
+- How functions are constructed
+- How loops operate
+- How if statement operate
+
